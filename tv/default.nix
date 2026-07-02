@@ -1,5 +1,5 @@
-{ config, lib, ... }: let
-  slib = lib.slib or (import ../../lib/pure.nix { inherit lib; });
+{ config, lib, stockholm, ... }: let
+  slib = lib.slib or (stockholm.lib);
 
   extend = x: f: {
     lambda = lib.recursiveUpdate x (f x);

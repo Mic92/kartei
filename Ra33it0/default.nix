@@ -1,5 +1,5 @@
-{ config, lib, ... }: let
-  slib = import ../../lib/pure.nix { inherit lib; };
+{ config, lib, stockholm, ... }: let
+  slib = stockholm.lib;
 in {
   users.Ra33it0 = {
     mail = "Ra33it0@posteo.net";

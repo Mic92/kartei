@@ -1,6 +1,6 @@
-{ config, lib, ... }: let
+{ config, lib, stockholm, ... }: let
   inherit (lib) flip mapAttrs optionalAttrs recursiveUpdate;
-  slib = import ../../lib/pure.nix { inherit lib; };
+  slib = stockholm.lib;
 
   hostDefaults = hostName: host: flip recursiveUpdate host ({
     ci = false;

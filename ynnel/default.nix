@@ -1,6 +1,6 @@
-{ config, lib, ... }:
+{ config, lib, stockholm, ... }:
 let
-  slib = import ../../lib/pure.nix { inherit lib; };
+  slib = stockholm.lib;
 in
 {
   users.ynnel = {

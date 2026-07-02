@@ -1,6 +1,6 @@
-{ config, lib, ... }: let
+{ config, lib, stockholm, ... }: let
   inherit (lib) flip genAttrs mapAttrs optionalAttrs recursiveUpdate;
-  slib = import ../../lib/pure.nix { inherit lib; };
+  slib = stockholm.lib;
 
   hostDefaults = hostName: host: flip recursiveUpdate host ({
     owner = config.krebs.users.krebs;
