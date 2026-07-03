@@ -2,10 +2,10 @@
 # tinc generate-keys
 # ssh-keygen -f ssh.id_ed25519 -t ed25519 -C host
 
-{ config, lib, stockholm, ... }: let
+{ config, lib, ... }: let
   inherit (builtins) foldl' mapAttrs pathExists readFile;
   inherit (lib) optionalAttrs recursiveUpdate;
-  slib = stockholm.lib;
+  slib = import ../lib { inherit lib; };
 
   hostDefaults = hostName: host: foldl' recursiveUpdate {} [
     {

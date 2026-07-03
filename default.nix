@@ -1,7 +1,7 @@
 { lib, ... }@arg: let
-  removeTemplate =
-    # TODO don't remove during CI
-    lib.flip builtins.removeAttrs ["template"];
+  removeNonConfigDirs =
+    # TODO don't remove template during CI
+    lib.flip builtins.removeAttrs ["lib" "template"];
 in {
   imports =
       (lib.mapAttrsToList
@@ -11,7 +11,7 @@ in {
           _file = toString path;
           krebs = import path arg;
         })
-        (removeTemplate
+        (removeNonConfigDirs
           (lib.filterAttrs
             (_name: type: type == "directory")
             (builtins.readDir ./.))));
