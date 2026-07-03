@@ -13,6 +13,6 @@ in {
         })
         (removeNonConfigDirs
           (lib.filterAttrs
-            (_name: type: type == "directory")
+            (name: type: type == "directory" && !lib.hasPrefix "." name)
             (builtins.readDir ./.))));
 }
