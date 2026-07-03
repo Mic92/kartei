@@ -12,36 +12,23 @@
       lib = forAllSystems (system:
         import ./lib { inherit (nixpkgs.legacyPackages.${system}) lib; });
 
+      nixosModules.default = ./module.nix;
+
       checks = forAllSystems (system:
         let
-          lib = nixpkgs.legacyPackages.${system}.lib;
+          pkgs = nixpkgs.legacyPackages.${system};
+          config = (pkgs.lib.evalModules {
+            modules = [
+              ./module.nix
+              { _module.args.lib = pkgs.lib; }
+            ];
+          }).config;
         in
         {
-          eval =
-            let
-              config = (lib.evalModules {
-                modules = [
-                  ./default.nix
-                  { _module.args.lib = lib; }
-                  {
-                    options.krebs = lib.mkOption {
-                      type = lib.types.submodule {
-                        freeformType = lib.types.attrsOf lib.types.anything;
-                        options.secret.directory = lib.mkOption {
-                          type = lib.types.str;
-                          default = "/run/secret";
-                        };
-                      };
-                      default = { };
-                    };
-                  }
-                ];
-              }).config;
-            in
-            nixpkgs.legacyPackages.${system}.runCommand "kartei-eval" { } ''
-              ${builtins.deepSeq config.krebs "true"}
-              touch $out
-            '';
+          eval = pkgs.runCommand "kartei-eval" { } ''
+            ${builtins.deepSeq config.krebs "true"}
+            touch $out
+          '';
         });
     };
 }

@@ -7,6 +7,16 @@ let
 
     krebs.genipv6 = import ./genipv6.nix kartei-lib;
 
+    types = lib.types // import ./types.nix { lib = kartei-lib; };
+
+    hexchars = stringToCharacters "0123456789abcdef";
+
+    genid = kartei-lib.genid_uint32; # TODO remove
+    genid_uint31 = x: ((kartei-lib.genid_uint32 x) + 16777216) / 2;
+    genid_uint32 = import ./genid.nix { lib = kartei-lib; };
+
+    systemd.encodeName = replaceStrings ["/"] ["\\x2f"];
+
     hashToLength = n: s: substring 0 n (hashString "sha256" s);
 
     dropLast = n: xs: reverseList (drop n (reverseList xs));
