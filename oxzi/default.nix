@@ -1,5 +1,5 @@
-{ config, lib, stockholm, ... }: let
-  slib = stockholm.lib;
+{ config, lib, ... }: let
+  slib = import ../lib { inherit lib; };
 in {
   users.oxzi = {
     mail = "post@0x21.biz";

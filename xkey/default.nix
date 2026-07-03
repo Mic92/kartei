@@ -1,7 +1,7 @@
-{ config, lib, stockholm, ... }:
+{ config, lib, ... }:
 let
   inherit (lib) flip mapAttrs optionalAttrs recursiveUpdate;
-  slib = stockholm.lib;
+  slib = import ../lib { inherit lib; };
   maybeEmpty = attrset: key: if (attrset?key) then attrset.${key} else [];
   hostDefaults = hostName: host: flip recursiveUpdate host ({
     ci = false;

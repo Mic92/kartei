@@ -1,5 +1,5 @@
-{ config, lib, stockholm, ... }: let
-  slib = lib.slib or (stockholm.lib);
+{ config, lib, ... }: let
+  slib = import ../lib { inherit lib; };
 
   extend = x: f: {
     lambda = lib.recursiveUpdate x (f x);

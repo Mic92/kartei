@@ -1,5 +1,5 @@
-{ config, lib, stockholm, ... }: let
-  slib = stockholm.lib;
+{ config, lib, ... }: let
+  slib = import ../lib { inherit lib; };
   hostDefaults = hostName: host: lib.flip lib.recursiveUpdate host ({
     ci = false;
     external = true;

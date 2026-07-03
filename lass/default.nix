@@ -1,5 +1,5 @@
-{ config, lib, stockholm, ... }: let
-  slib = stockholm.lib;
+{ config, lib, ... }: let
+  slib = import ../lib { inherit lib; };
 
   r6 = ip: (slib.krebs.genipv6 "retiolum" "lass" ip).address;
   w6 = ip: (slib.krebs.genipv6 "wiregrill" "lass" ip).address;
