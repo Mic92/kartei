@@ -1,5 +1,5 @@
 { config, lib, ... }: let
-  slib = import ../../lib/pure.nix { inherit lib; };
+  slib = import ../lib/pure.nix { inherit lib; };
   hostDefaults = hostName: host: lib.flip lib.recursiveUpdate host ({
     ci = false;
     external = true;

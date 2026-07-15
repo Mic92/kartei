@@ -5,7 +5,7 @@
 { config, lib, ... }: let
   inherit (builtins) foldl' mapAttrs pathExists readFile;
   inherit (lib) optionalAttrs recursiveUpdate;
-  slib = import ../../lib/pure.nix { inherit lib; };
+  slib = import ../lib/pure.nix { inherit lib; };
 
   hostDefaults = hostName: host: foldl' recursiveUpdate {} [
     {

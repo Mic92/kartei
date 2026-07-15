@@ -1,5 +1,5 @@
 { config, lib, ... }: let
-  slib = import ../../lib/pure.nix { inherit lib; };
+  slib = import ../lib/pure.nix { inherit lib; };
 in {
   users.phelix = {
     mail = "phelix-r@unavailable.network";

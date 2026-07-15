@@ -1,0 +1,54 @@
+{
+  config,
+  lib,
+  retiolumHostData,
+  ...
+}:
+let
+  cfg = config.networking.retiolum;
+in
+{
+  imports = [ ./common.nix ];
+
+  config = {
+    services.tincr.networks.retiolum = {
+      nodeName = cfg.nodename;
+      listenPort = cfg.port;
+      openFirewall = true;
+      ed25519PrivateKeyFile = cfg.ed25519PrivateKeyFile;
+      hosts = retiolumHostData.tincHosts;
+      connectTo = [
+        "eve"
+        "eva"
+        "ni"
+        "prism"
+      ];
+      # See retiolum incident 2d2ab95f0: MST broadcast loops during
+      # edge churn amplified SSDP/IGMP into a mesh-wide packet storm.
+      extraConfig = ''
+        LocalDiscovery = yes
+        Broadcast = no
+      '';
+      addresses = lib.optional (cfg.ipv4 != null) "${cfg.ipv4}/12" ++ [ "${cfg.ipv6}/16" ];
+      interfaceName = "tinc.retiolum";
+      dns = {
+        enable = true;
+        suffix = "r";
+        address4 = "10.243.0.53";
+        address6 = "42::53";
+      };
+    };
+
+    # Measured with `ping -6 -s 1378` across the mesh; pin it so
+    # PMTU blackholes over double-NAT relays don't stall TCP.
+    systemd.network.networks."40-tincr-retiolum".linkConfig.MTUBytes = "1377";
+
+    networking.extraHosts = lib.mkIf cfg.extraHosts (
+      if cfg.ipv4 == null then retiolumHostData.extraHosts.v6only else retiolumHostData.extraHosts.v4v6
+    );
+
+    environment.systemPackages = [
+      config.services.tincr.networks.retiolum.package
+    ];
+  };
+}
