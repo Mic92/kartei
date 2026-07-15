@@ -1,7 +1,7 @@
 { lib, ... }@arg: let
   removeNonConfigDirs =
     # TODO don't remove template during CI
-    lib.flip builtins.removeAttrs ["lib" "template"];
+    lib.flip builtins.removeAttrs ["lib" "modules" "template"];
 in {
   imports =
       (lib.mapAttrsToList
