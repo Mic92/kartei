@@ -39,6 +39,9 @@ systemd-resolved.  A static `/etc/hosts` copy is also installed by
 default (`networking.retiolum.extraHosts`) so the mesh stays
 resolvable while tincd is restarting.
 
+On pre-AVX2 x86_64 hardware set
+`services.tincr.package = tincr.packages.${system}.tincd-compat;`.
+
 ## NixOS without flakes
 
 ```nix
