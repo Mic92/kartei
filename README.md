@@ -90,7 +90,7 @@ your Ed25519 public key and you need a private key on disk.
 ### 1. Generate a keypair
 
 ```console
-$ nix shell github:Mic92/tincr
+$ nix shell --refresh github:Mic92/tincr
 $ sptps_keypair ed25519_key.priv ed25519_key.pub
 $ sudo install -Dm600 ed25519_key.priv /var/src/secrets/tinc.retiolum.ed25519_key.priv
 $ rm ed25519_key.priv
