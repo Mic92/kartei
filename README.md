@@ -39,6 +39,22 @@ systemd-resolved.  A static `/etc/hosts` copy is also installed by
 default (`networking.retiolum.extraHosts`) so the mesh stays
 resolvable while tincd is restarting.
 
+## NixOS without flakes
+
+```nix
+{
+  imports = let
+    kartei = builtins.fetchTarball "https://github.com/krebs/kartei/archive/master.tar.gz";
+  in [
+    "${kartei}/modules/retiolum"
+    "${kartei}/modules/ca"
+  ];
+  networking.retiolum.ed25519PrivateKeyFile = "/var/src/secrets/tinc.retiolum.ed25519_key.priv";
+}
+```
+
+The module fetches tincr from the revision pinned in `flake.lock`.
+
 ## nix-darwin
 
 ```nix
